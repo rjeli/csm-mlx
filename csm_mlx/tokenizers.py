@@ -14,9 +14,7 @@ from csm_mlx.segment import Segment
 def get_audio_tokenizer(n_audio_codebooks: int) -> Mimi:
     mimi = Mimi(mimi_202407(n_audio_codebooks))
     weight = hf_hub_download(**TOKENIZERS["audio"])  # type: ignore
-
-    mimi.load_pytorch_weights(weight)
-
+    mimi.load_pytorch_weights(weight, strict=False)
     return mimi
 
 

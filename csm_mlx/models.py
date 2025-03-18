@@ -5,7 +5,6 @@ from mlx import nn
 from mlx_lm.models.base import BaseModelArgs
 from mlx_lm.models.llama import LlamaModel
 
-from csm_mlx.attention import Attention
 from csm_mlx.config import BACKBONE_CONFIGURATION, DECODER_CONFIGURATION
 
 
@@ -69,12 +68,6 @@ class CSM(nn.Module):
         # Patch embeddings
         self.backbone.embed_tokens = nn.Identity()  # type: ignore
         self.decoder.embed_tokens = nn.Identity()  # type: ignore
-
-        # Patch attention
-        for layer in self.backbone.layers:
-            layer.self_attn = Attention(BACKBONE_CONFIGURATION[args.backbone_name])  # type: ignore
-        for layer in self.decoder.layers:
-            layer.self_attn = Attention(DECODER_CONFIGURATION[args.decoder_name])  # type: ignore
 
     def embed_audio(self, codebook: int, tokens: mx.array) -> mx.array:
         return self.audio_embeddings(tokens + codebook * self.n_audio_vocab)

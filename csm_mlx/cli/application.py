@@ -4,7 +4,13 @@ import typer
 from huggingface_hub import hf_hub_download
 from mlx_lm.sample_utils import make_sampler
 from rich import print
-from rich.progress import Progress, SpinnerColumn, TextColumn
+from rich.progress import (
+    BarColumn,
+    Progress,
+    SpinnerColumn,
+    TaskProgressColumn,
+    TextColumn,
+)
 from typing_extensions import Annotated
 
 from csm_mlx import CSM, Segment, generate
@@ -123,11 +129,19 @@ def generate_command(
     with Progress(
         SpinnerColumn(),
         TextColumn("[progress.description]{task.description}"),
-        transient=True,
+        BarColumn(),
+        TaskProgressColumn(),
+        TextColumn("{task.completed}/{task.total} ({task.speed}/s)"),
     ) as progress:
-        progress.add_task(description="Inferencing...", total=None)
+        ptask = progress.add_task(description="inferring...", total=1)
         result = generate(
-            csm, text, speaker, context, max_audio_length, sampler=sampler
+            csm,
+            text,
+            speaker,
+            context,
+            max_audio_length,
+            sampler=sampler,
+            progress_fn=lambda i, tot: progress.update(ptask, completed=i, total=tot),
         )
 
     write_audio(result, output, sampling_rate)

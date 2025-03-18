@@ -10,9 +10,15 @@ readme = "README.md"
 requires-python = ">=3.10, <3.13"
 dependencies = [
     "mlx-lm>=0.22.0",
-    "mlx>=0.22.1",
+    "mlx>=0.22.0",
     "moshi-mlx>=0.2.2",
     "transformers>=4.48.3",
+    "soundfile>=0.13.1",
+    "tqdm>=4.67.1",
+    "pyarrow>=19.0.1",
+    "datasets>=3.4.0",
+    "librosa>=0.11.0",
+    "einops>=0.8.1",
 ]
 
 [project.optional-dependencies]
@@ -20,3 +26,9 @@ cli = ["audiofile>=1.5.1", "audresample>=1.3.3", "typer>=0.15.2"]
 
 [project.scripts]
 csm-mlx = "csm_mlx.cli.application:app"
+# train-faster-decoder = "csm_mlx.train_faster_decoder"
+
+[tool.uv]
+override-dependencies = [
+    "mlx==0.23.2",
+]

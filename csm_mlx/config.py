@@ -19,6 +19,7 @@ BACKBONE_CONFIGURATION = {
             "rope_type": "llama3",
         },
         rope_theta=500_000.0,
+        rope_traditional=True,
     )
 }
 
@@ -41,6 +42,7 @@ DECODER_CONFIGURATION = {
             "rope_type": "llama3",
         },
         rope_theta=500_000.0,
+        rope_traditional=True,
     )
 }
 

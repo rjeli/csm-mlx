@@ -12,3 +12,5 @@ wheels/
 # uv
 uv.lock
 .python-version
+
+models/*
